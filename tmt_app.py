@@ -5,6 +5,18 @@ st.set_page_config(page_icon="favicon_32x32.png")
 st.set_page_config(
     page_icon="TMTlogo.jpeg"
 ) 
+page_bg_img = '''
+<style>
+body {
+background-image: url("file:///Users/ajayjain/Downloads/Background.jpg");
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+</style>
+'''
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
 st.set_page_config(page_title="TMT - Teacher Manage Tasks", layout="centered")
 
 # Title
