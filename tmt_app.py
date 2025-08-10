@@ -1,87 +1,70 @@
+import streamlit as st
 import random
-from tkinter import *
-from tkinter import ttk
-root = Tk()
 
-def grade_calculator():
-    print("-----------------------0-Grade Calculator-0-----------------------")
-    score = input("Enter the student's score (e.g., 18/20): ")
+st.set_page_config(page_title="TMT - Teacher Manage Tasks", page_icon="📚", layout="centered")
 
-    try:
-        num, den = score.split('/')
-        num = int(num)
-        den = int(den)
-        percentage = (num / den) * 100
-    except Exception as e:
-        print("Invalid input format. Please enter like '18/20'.")
-        return
+# Title
+st.title("📚 Teacher Manage Tasks")
 
-    if percentage >= 100:
-        letter = "A+"
-    elif percentage >= 90:
-        letter = "A"
-    elif percentage >= 80:
-        letter = "B"
-    elif percentage >= 70:
-        letter = "C"
-    elif percentage >= 60:
-        letter = "D"
-    else:
-        letter = "F"
+# Menu selection
+menu = st.selectbox("Choose a tool:", ["Grade Calculator", "Quiz Maker", "Student Picker"])
 
-    print(f"Percentage: {percentage:.2f}%")
-    print(f"Letter Grade: {letter}")
+# Grade Calculator
+if menu == "Grade Calculator":
+    st.header("Grade Calculator")
+    score_input = st.text_input("Enter the student's score (e.g., 18/20)")
 
-def quiz_maker():
-    print("-----------------------0-Quiz Maker-0-----------------------")
+    if st.button("Calculate Grade"):
+        try:
+            num, den = score_input.split('/')
+            num = int(num)
+            den = int(den)
+            percentage = (num / den) * 100
+
+            if percentage >= 100:
+                letter = "A+"
+            elif percentage >= 90:
+                letter = "A"
+            elif percentage >= 80:
+                letter = "B"
+            elif percentage >= 70:
+                letter = "C"
+            elif percentage >= 60:
+                letter = "D"
+            else:
+                letter = "F"
+
+            st.success(f"Percentage: {percentage:.2f}%\nLetter Grade: {letter}")
+        except:
+            st.error("Invalid input format. Please enter like '18/20'.")
+
+# Quiz Maker
+elif menu == "Quiz Maker":
+    st.header("Quiz Maker")
+    num_questions = st.number_input("How many questions?", min_value=1, step=1)
     questions = []
-    num_questions = int(input("How many questions do you want to add? "))
+
     for i in range(num_questions):
-        q = input(f"Enter question {i + 1}: ")
-        a = input("Enter correct answer: ")
+        q = st.text_input(f"Question {i+1}")
+        a = st.text_input(f"Answer {i+1}")
         questions.append((q, a))
-    print("\n" * 32)
 
-    print("-----------------------0-Quiz taker-0-----------------------")
-    score = 0
-    for q, a in questions:
-        ans = input(q + " ")
-        if ans.strip().lower() == a.strip().lower():
-            print("Correct!")
-            score += 1
+    if st.button("Start Quiz"):
+        score = 0
+        for q, a in questions:
+            ans = st.text_input(q, key=q)
+            if ans.strip().lower() == a.strip().lower():
+                score += 1
+        st.write(f"Your score: {score}/{num_questions}")
+
+# Student Picker
+elif menu == "Student Picker":
+    st.header("Student Picker")
+    names = st.text_area("Enter student names separated by commas")
+    if st.button("Pick Random Student"):
+        student_list = [n.strip() for n in names.split(",") if n.strip()]
+        if student_list:
+            chosen = random.choice(student_list)
+            st.success(f"🎉 The chosen student is: {chosen}")
         else:
-            print(f"Wrong! The correct answer was: {a}")
-    print(f"Your score: {score}/{num_questions}")
-
-def student_picker():
-    print("-----------------------0-Student Picker-0-----------------------")
-    students = input("Enter student names separated by commas: ")
-    student_list = [s.strip() for s in students.split(",") if s.strip()]
-
-    if not student_list:
-        print("No valid student names entered.")
-        return
-
-    chosen = random.choice(student_list)
-    print(f"\nThe chosen student is: {chosen}\n")
-
-while True:
-    print("\nWelcome to TMT - Teacher Manage Tasks!")
-    print("1. Grade Calculator")
-    print("2. Quiz Maker")
-    print("3.Student Picker")
-    print("4. Exit")
-
-    choice = input("Enter your choice: ")
-
-    if choice == '1':
-        grade_calculator()
-    elif choice == '2':
-        quiz_maker()
-    elif choice == '3':
-        student_picker()
-    elif choice == '4':
-        print("BYEEE!")
-        break
-    else:
-        print("Invalid choice, try again.")
+            st.error("Please enter at least one student name.")
