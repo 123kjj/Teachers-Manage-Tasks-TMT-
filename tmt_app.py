@@ -3,7 +3,7 @@ import random
 
 
 st.set_page_config(
-    page_icon="TMTlogo.png"
+    page_icon="TMTlogo.jpeg"
 )
 st.title("My Streamlit App with Custom Favicon")
 
