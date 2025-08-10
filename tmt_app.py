@@ -1,12 +1,10 @@
 import streamlit as st
 import random
 
-
+st.set_page_config(page_icon="favicon_32x32.png")
 st.set_page_config(
     page_icon="TMTlogo.jpeg"
-)
-st.title("My Streamlit App with Custom Favicon")
-
+) 
 st.set_page_config(page_title="TMT - Teacher Manage Tasks", layout="centered")
 
 # Title
