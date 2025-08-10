@@ -1,10 +1,22 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="TMT - Teacher Manage Tasks", page_icon="📚", layout="centered")
+
+favicon_url = "https://www.gstatic.com/android/keyboard/emojikitchen/20240530/u1f409/u1f409_u1f393.png"
+
+st.markdown(
+    f"""
+    <link rel="shortcut icon" href="{favicon_url}" type="image/png">
+    """,
+    unsafe_allow_html=True
+)
+
+st.title("My Streamlit App with Custom Favicon")
+
+st.set_page_config(page_title="TMT - Teacher Manage Tasks", layout="centered")
 
 # Title
-st.title("📚 Teacher Manage Tasks")
+st.title("👩‍🏫 Teacher Manage Tasks")
 
 # Menu selection
 menu = st.selectbox("Choose a tool:", ["Grade Calculator", "Quiz Maker", "Student Picker"])
