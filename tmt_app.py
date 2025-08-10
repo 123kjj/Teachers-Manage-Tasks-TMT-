@@ -8,7 +8,7 @@ st.set_page_config(
 st.set_page_config(page_title="TMT - Teacher Manage Tasks", layout="centered")
 
 # Title
-st.title("👩‍🏫 Teacher Manage Tasks")
+st.title("📓 Teacher Manage Tasks")
 
 # Menu selection
 menu = st.selectbox("Choose a tool:", ["Grade Calculator", "Quiz Maker", "Student Picker"])
