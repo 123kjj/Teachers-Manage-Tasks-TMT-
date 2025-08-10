@@ -8,7 +8,7 @@ st.set_page_config(
 page_bg_img = '''
 <style>
 body {
-background-image: url("file:///Users/ajayjain/Downloads/Background.jpg");
+background-image: ("background.jpg");
 background-size: cover;
 background-repeat: no-repeat;
 background-attachment: fixed;
