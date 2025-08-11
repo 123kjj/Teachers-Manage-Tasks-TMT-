@@ -131,7 +131,7 @@ if menu == "📝 Grade Calculator":
 elif menu == "❓ Quiz Maker":
     st.markdown('<div class="menu-description">Create quizzes by entering questions and answers, then test yourself!</div>', unsafe_allow_html=True)
 elif menu == "🎲 Student Picker":
-    st.markdown('<div class="menu-description">Enter student names and randomly pick one — perfect for group activities!</div>', unsafe_allow_html=True)
+    st.markdown('<div class="menu-description">Enter student names and randomly pick one — perfect for picking students to answer questions!</div>', unsafe_allow_html=True)
 
 # --- GRADE CALCULATOR ---
 if menu == "📝 Grade Calculator":
