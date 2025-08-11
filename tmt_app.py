@@ -4,11 +4,11 @@ import random
 # --- PAGE CONFIG ---
 st.set_page_config(
     page_title="TMT - Teacher Manage Tasks",
-    page_icon="TMTlogo.jpeg",
+    page_icon="📚✨",
     layout="centered"
 )
 
-# --- CUSTOM CSS FOR CUTE THEME ---
+# --- CUSTOM CSS FOR CUTE THEME WITH BG GRADIENT AND EMOJIS ---
 cute_css = """
 <style>
 /* Import font */
@@ -16,8 +16,11 @@ cute_css = """
 
 html, body, [class*="css"] {
     font-family: 'Poppins', sans-serif;
-    background-color: #FFF8F0;
+    /* Soft pastel gradient background */
+    background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
     color: #5A4E42;
+    min-height: 100vh;
+    margin: 0;
 }
 
 /* Title */
@@ -33,6 +36,7 @@ h1, h2, h3 {
     padding: 10px;
     box-shadow: 1px 1px 5px #FFD6D6;
     transition: border-color 0.3s ease;
+    font-size: 16px;
 }
 
 .stTextInput input:focus, .stTextArea textarea:focus, .stNumberInput input:focus {
@@ -44,16 +48,18 @@ h1, h2, h3 {
 .stButton>button {
     background-color: #FF6F91;
     color: white;
-    border-radius: 20px;
-    padding: 10px 25px;
-    font-weight: 600;
-    box-shadow: 0 4px 8px rgba(255,111,145,0.4);
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(255,111,145,0.5);
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 .stButton>button:hover {
     background-color: #FF4C69;
-    box-shadow: 0 6px 12px rgba(255,76,105,0.6);
+    box-shadow: 0 6px 16px rgba(255,76,105,0.7);
 }
 
 /* Selectbox */
@@ -62,6 +68,7 @@ h1, h2, h3 {
     border: 2px solid #FFB6B9 !important;
     box-shadow: 1px 1px 5px #FFD6D6 !important;
     padding-left: 8px !important;
+    font-size: 16px !important;
 }
 
 /* Success and error messages */
@@ -72,6 +79,8 @@ h1, h2, h3 {
     border-radius: 15px;
     padding: 10px;
     box-shadow: 1px 1px 6px #A3E4D7;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .stAlert-error {
@@ -81,6 +90,26 @@ h1, h2, h3 {
     border-radius: 15px;
     padding: 10px;
     box-shadow: 1px 1px 6px #F1948A;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Center all content nicely */
+[data-testid="stAppViewContainer"] > .main {
+    max-width: 650px;
+    margin: auto;
+    padding: 30px 20px 50px 20px;
+}
+
+/* Add cute emojis before headers */
+h1::before {
+    content: "🌸 ";
+}
+h2::before {
+    content: "✨ ";
+}
+h3::before {
+    content: "🎉 ";
 }
 </style>
 """
@@ -90,15 +119,19 @@ st.markdown(cute_css, unsafe_allow_html=True)
 # --- APP TITLE ---
 st.title("📓 Teacher Manage Tasks")
 
-# Menu selection
-menu = st.selectbox("Choose a tool:", ["Grade Calculator", "Quiz Maker", "Student Picker"])
+# Menu selection with emoji options
+menu = st.selectbox("Choose a tool:", [
+    "📝 Grade Calculator", 
+    "❓ Quiz Maker", 
+    "🎲 Student Picker"
+])
 
 # --- GRADE CALCULATOR ---
-if menu == "Grade Calculator":
+if menu == "📝 Grade Calculator":
     st.header("Grade Calculator")
     score_input = st.text_input("Enter the student's score (e.g., 18/20)")
 
-    if st.button("Calculate Grade"):
+    if st.button("Calculate Grade 🎯"):
         try:
             num, den = score_input.split('/')
             num = int(num)
@@ -120,10 +153,10 @@ if menu == "Grade Calculator":
 
             st.success(f"📊 Percentage: {percentage:.2f}%\n🏆 Letter Grade: {letter}")
         except:
-            st.error("Invalid input format. Please enter like '18/20'.")
+            st.error("⚠️ Invalid input format. Please enter like '18/20'.")
 
 # --- QUIZ MAKER ---
-elif menu == "Quiz Maker":
+elif menu == "❓ Quiz Maker":
     st.header("Quiz Maker")
 
     if "quiz_data" not in st.session_state:
@@ -132,15 +165,15 @@ elif menu == "Quiz Maker":
         st.session_state.quiz_started = False
 
     if not st.session_state.quiz_started:
-        num_questions = st.number_input("How many questions?", min_value=1, step=1)
+        num_questions = st.number_input("How many questions? 🤔", min_value=1, step=1)
         questions = []
 
         for i in range(num_questions):
-            q = st.text_input(f"Question {i+1}")
-            a = st.text_input(f"Answer {i+1}")
+            q = st.text_input(f"Question {i+1} 📝")
+            a = st.text_input(f"Answer {i+1} ✍️")
             questions.append((q, a))
 
-        if st.button("Start Quiz"):
+        if st.button("Start Quiz 🚀"):
             st.session_state.quiz_data = questions
             st.session_state.quiz_started = True
             st.experimental_rerun()
@@ -155,13 +188,13 @@ elif menu == "Quiz Maker":
         st.success(f"✅ Your score: {score}/{len(st.session_state.quiz_data)}")
 
 # --- STUDENT PICKER ---
-elif menu == "Student Picker":
+elif menu == "🎲 Student Picker":
     st.header("Student Picker")
-    names = st.text_area("Enter student names separated by commas")
-    if st.button("Pick Random Student"):
+    names = st.text_area("Enter student names separated by commas 👫")
+    if st.button("Pick Random Student 🎉"):
         student_list = [n.strip() for n in names.split(",") if n.strip()]
         if student_list:
             chosen = random.choice(student_list)
-            st.success(f"🎉 The chosen student is: {chosen}")
+            st.success(f"🎊 The chosen student is: {chosen}")
         else:
-            st.error("Please enter at least one student name.")
+            st.error("❌ Please enter at least one student name.")
