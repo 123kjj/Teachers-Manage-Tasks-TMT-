@@ -4,7 +4,7 @@ import random
 # --- PAGE CONFIG ---
 st.set_page_config(
     page_title="TMT - Teacher Manage Tasks",
-    page_icon="TMTlogo.jpeg",  # Your original image icon
+    page_icon="TMTlogo.jpeg",
     layout="centered"
 )
 
@@ -16,20 +16,17 @@ cute_css = """
 
 html, body, [class*="css"] {
     font-family: 'Poppins', sans-serif;
-    /* Soft pastel gradient background */
     background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
     color: #5A4E42;
     min-height: 100vh;
     margin: 0;
 }
 
-/* Title */
 h1, h2, h3 {
     color: #A56C6C;
     text-shadow: 1px 1px 3px #FFD9D9;
 }
 
-/* Inputs & TextAreas */
 .stTextInput input, .stTextArea textarea, .stNumberInput input {
     border-radius: 15px;
     border: 2px solid #FFB6B9;
@@ -44,7 +41,6 @@ h1, h2, h3 {
     outline: none;
 }
 
-/* Buttons */
 .stButton>button {
     background-color: #FF6F91;
     color: white;
@@ -62,7 +58,6 @@ h1, h2, h3 {
     box-shadow: 0 6px 16px rgba(255,76,105,0.7);
 }
 
-/* Selectbox */
 .css-1d391kg {
     border-radius: 15px !important;
     border: 2px solid #FFB6B9 !important;
@@ -71,7 +66,6 @@ h1, h2, h3 {
     font-size: 16px !important;
 }
 
-/* Success and error messages */
 .stAlert-success {
     background-color: #D1F2EB;
     border-left: 6px solid #1ABC9C;
@@ -94,14 +88,12 @@ h1, h2, h3 {
     font-size: 16px;
 }
 
-/* Center all content nicely */
 [data-testid="stAppViewContainer"] > .main {
     max-width: 650px;
     margin: auto;
     padding: 30px 20px 50px 20px;
 }
 
-/* Add cute emojis before headers */
 h1::before {
     content: "🌸 ";
 }
@@ -110,6 +102,13 @@ h2::before {
 }
 h3::before {
     content: "🎉 ";
+}
+
+.menu-description {
+    font-style: italic;
+    color: #A56C6C;
+    margin-bottom: 20px;
+    font-size: 18px;
 }
 </style>
 """
@@ -125,6 +124,14 @@ menu = st.selectbox("Choose a tool:", [
     "❓ Quiz Maker", 
     "🎲 Student Picker"
 ])
+
+# Show description for selected menu
+if menu == "📝 Grade Calculator":
+    st.markdown('<div class="menu-description">Calculates your grade from a fraction (like 18/20) to a percentage and letter grade.</div>', unsafe_allow_html=True)
+elif menu == "❓ Quiz Maker":
+    st.markdown('<div class="menu-description">Create quizzes by entering questions and answers, then test yourself!</div>', unsafe_allow_html=True)
+elif menu == "🎲 Student Picker":
+    st.markdown('<div class="menu-description">Enter student names and randomly pick one — perfect for group activities!</div>', unsafe_allow_html=True)
 
 # --- GRADE CALCULATOR ---
 if menu == "📝 Grade Calculator":
