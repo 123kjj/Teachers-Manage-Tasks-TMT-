@@ -45,6 +45,14 @@ if menu == "Grade Calculator":
 # Quiz Maker
 elif menu == "Quiz Maker":
     st.header("Quiz Maker")
+
+# Initialize session state storage
+if "quiz_data" not in st.session_state:
+    st.session_state.quiz_data = []
+if "quiz_started" not in st.session_state:
+    st.session_state.quiz_started = False
+
+if not st.session_state.quiz_started:
     num_questions = st.number_input("How many questions?", min_value=1, step=1)
     questions = []
 
@@ -54,12 +62,18 @@ elif menu == "Quiz Maker":
         questions.append((q, a))
 
     if st.button("Start Quiz"):
-        score = 0
-        for q, a in questions:
-            ans = st.text_input(q, key=q)
-            if ans.strip().lower() == a.strip().lower():
-                score += 1
-        st.write(f"Your score: {score}/{num_questions}")
+        st.session_state.quiz_data = questions
+        st.session_state.quiz_started = True
+        st.rerun()
+
+else:
+    score = 0
+    for idx, (q, a) in enumerate(st.session_state.quiz_data):
+        ans = st.text_input(q, key=f"answer_{idx}")
+        if ans.strip().lower() == a.strip().lower():
+            score += 1
+
+    st.write(f"Your score: {score}/{len(st.session_state.quiz_data)}")
 
 # Student Picker
 elif menu == "Student Picker":
