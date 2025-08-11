@@ -188,7 +188,7 @@ elif menu == "❓ Quiz Maker":
             if all(q.strip() and a.strip() for q, a in questions):
                 st.session_state.quiz_data = questions
                 st.session_state.quiz_started = True
-                st.experimental_rerun()
+                st.experimental_user()
             else:
                 st.error("Please fill out all questions and answers before starting the quiz.")
 
