@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+import base64
 
 # --- PAGE CONFIG ---
 st.set_page_config(
@@ -8,34 +9,41 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- CUSTOM STYLES ---
-st.markdown(
-    f"""
+# --- FUNCTION TO SET BG IMAGE ---
+def set_bg(image_file):
+    with open(image_file, "rb") as f:
+        data = f.read()
+    encoded = base64.b64encode(data).decode()
+    css = f"""
     <style>
-    /* Background image */
+    /* Background image with dim overlay */
     .stApp {{
-        background: url("Background.jpeg");
+        background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+                    url(data:image/jpeg;base64,{encoded});
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
         color: #1F3B4D;
     }}
+
     /* Google Font */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
     html, body, [class*="css"] {{
         font-family: 'Poppins', sans-serif;
     }}
+
     /* Titles */
-    h1, h2, h3, h4 {{
-        color: #1F3B4D;
+    h1, h2, h3 {{
         text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
     }}
+
     /* Inputs & Buttons */
     .stTextInput input, .stTextArea textarea, .stNumberInput input {{
         border-radius: 10px;
         border: 1px solid #a3c2c2;
         padding: 8px;
     }}
+
     .stButton>button {{
         background-color: #4CAF50;
         color: white;
@@ -48,9 +56,11 @@ st.markdown(
         background-color: #45a049;
     }}
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+# Call function to set bg
+set_bg("Background.jpeg")
 
 # --- APP TITLE ---
 st.title("📓 Teacher Manage Tasks")
@@ -58,7 +68,7 @@ st.title("📓 Teacher Manage Tasks")
 # Menu selection
 menu = st.selectbox("Choose a tool:", ["Grade Calculator", "Quiz Maker", "Student Picker"])
 
-# Grade Calculator
+# --- GRADE CALCULATOR ---
 if menu == "Grade Calculator":
     st.header("Grade Calculator")
     score_input = st.text_input("Enter the student's score (e.g., 18/20)")
@@ -87,7 +97,7 @@ if menu == "Grade Calculator":
         except:
             st.error("Invalid input format. Please enter like '18/20'.")
 
-# Quiz Maker
+# --- QUIZ MAKER ---
 elif menu == "Quiz Maker":
     st.header("Quiz Maker")
 
@@ -119,7 +129,7 @@ elif menu == "Quiz Maker":
 
         st.success(f"✅ Your score: {score}/{len(st.session_state.quiz_data)}")
 
-# Student Picker
+# --- STUDENT PICKER ---
 elif menu == "Student Picker":
     st.header("Student Picker")
     names = st.text_area("Enter student names separated by commas")
@@ -127,6 +137,4 @@ elif menu == "Student Picker":
         student_list = [n.strip() for n in names.split(",") if n.strip()]
         if student_list:
             chosen = random.choice(student_list)
-            st.success(f"🎉 The chosen student is: {chosen}")
-        else:
-            st.error("Please enter at least one student name.")
+            st.success(f"🎉 The cho
