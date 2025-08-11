@@ -1,13 +1,58 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_icon="favicon_32x32.png")
+# --- PAGE CONFIG ---
 st.set_page_config(
-    page_icon="TMTlogo.jpeg" 
+    page_title="TMT - Teacher Manage Tasks",
+    page_icon="TMTlogo.jpeg",
+    layout="centered"
 )
-st.set_page_config(page_title="TMT - Teacher Manage Tasks", layout="centered")
 
-# Title
+# --- CUSTOM STYLES ---
+st.markdown(
+    f"""
+    <style>
+    /* Background image */
+    .stApp {{
+        background: url("background.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #1F3B4D;
+    }}
+    /* Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+    html, body, [class*="css"] {{
+        font-family: 'Poppins', sans-serif;
+    }}
+    /* Titles */
+    h1, h2, h3, h4 {{
+        color: #1F3B4D;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }}
+    /* Inputs & Buttons */
+    .stTextInput input, .stTextArea textarea, .stNumberInput input {{
+        border-radius: 10px;
+        border: 1px solid #a3c2c2;
+        padding: 8px;
+    }}
+    .stButton>button {{
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 16px;
+        border: none;
+        font-weight: bold;
+    }}
+    .stButton>button:hover {{
+        background-color: #45a049;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# --- APP TITLE ---
 st.title("📓 Teacher Manage Tasks")
 
 # Menu selection
@@ -38,15 +83,14 @@ if menu == "Grade Calculator":
             else:
                 letter = "F"
 
-            st.success(f"Percentage: {percentage:.2f}%\nLetter Grade: {letter}")
+            st.success(f"📊 Percentage: {percentage:.2f}%\n🏆 Letter Grade: {letter}")
         except:
             st.error("Invalid input format. Please enter like '18/20'.")
 
-# Quiz Maker 
+# Quiz Maker
 elif menu == "Quiz Maker":
     st.header("Quiz Maker")
 
-    # Initialize session state storage
     if "quiz_data" not in st.session_state:
         st.session_state.quiz_data = []
     if "quiz_started" not in st.session_state:
@@ -73,7 +117,7 @@ elif menu == "Quiz Maker":
             if ans.strip().lower() == a.strip().lower():
                 score += 1
 
-        st.write(f"Your score: {score}/{len(st.session_state.quiz_data)}")
+        st.success(f"✅ Your score: {score}/{len(st.session_state.quiz_data)}")
 
 # Student Picker
 elif menu == "Student Picker":
