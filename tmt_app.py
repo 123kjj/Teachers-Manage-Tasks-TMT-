@@ -163,53 +163,32 @@ if menu == "📝 Grade Calculator":
             st.error("⚠️ Invalid input format. Please enter like '18/20'.")
 
 # --- QUIZ MAKER ---
-elif menu == "❓ Quiz Maker":
-    st.header("Quiz Maker")
+else:
+    score = 0
+    total = len(st.session_state.quiz_data)
+    for idx, (q, a) in enumerate(st.session_state.quiz_data):
+        ans = st.text_input(q, key=f"answer_{idx}")
+        if ans.strip().lower() == a.strip().lower():
+            score += 1
 
-    if "quiz_data" not in st.session_state:
-        st.session_state.quiz_data = []
-    if "quiz_started" not in st.session_state:
-        st.session_state.quiz_started = False
-    if "num_questions" not in st.session_state:
-        st.session_state.num_questions = 1
+    st.success(f"✅ You got {score} out of {total} correct!")
 
-    if not st.session_state.quiz_started:
-        # Let user select number of questions once
-        st.session_state.num_questions = st.number_input("How many questions? 🤔", min_value=1, step=1)
-
-        # Create inputs for questions and answers with unique keys and store in session_state
-        questions = []
-        for i in range(st.session_state.num_questions):
-            q = st.text_input(f"Question {i+1} 📝", key=f"q_{i}")
-            a = st.text_input(f"Answer {i+1} ✍️", key=f"a_{i}")
-            questions.append((q, a))
-
-        if st.button("Start Quiz 🚀"):
-            # Check all questions and answers are filled
-            if all(q.strip() and a.strip() for q, a in questions):
-                st.session_state.quiz_data = questions
-                st.session_state.quiz_started = True
-                st.experimental_rerun()
-            else:
-                st.error("Please fill out all questions and answers before starting the quiz.")
-
+    percentage = (score / total) * 100
+    if percentage >= 80:
+        st.info("🎉 Great job! You're doing awesome!")
+    elif percentage >= 50:
+        st.info("👍 Not bad! Keep practicing to get even better.")
     else:
-        score = 0
-        for idx, (q, a) in enumerate(st.session_state.quiz_data):
-            ans = st.text_input(q, key=f"answer_{idx}")
-            if ans.strip().lower() == a.strip().lower():
-                score += 1
+        st.info("💪 Don't give up! Practice makes perfect.")
 
-        st.success(f"✅ Your score: {score}/{len(st.session_state.quiz_data)}")
+    if st.button("Reset Quiz 🔄"):
+        st.session_state.quiz_started = False
+        st.session_state.quiz_data = []
+        for i in range(st.session_state.num_questions):
+            st.session_state.pop(f"q_{i}", None)
+            st.session_state.pop(f"a_{i}", None)
+        st.experimental_rerun()
 
-        if st.button("Reset Quiz 🔄"):
-            st.session_state.quiz_started = False
-            st.session_state.quiz_data = []
-            # Clear question inputs from session_state
-            for i in range(st.session_state.num_questions):
-                st.session_state.pop(f"q_{i}", None)
-                st.session_state.pop(f"a_{i}", None)
-            st.experimental_rerun()
 # --- STUDENT PICKER ---
 elif menu == "🎲 Student Picker":
     st.header("Student Picker")
