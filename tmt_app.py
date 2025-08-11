@@ -42,38 +42,38 @@ if menu == "Grade Calculator":
         except:
             st.error("Invalid input format. Please enter like '18/20'.")
 
-# Quiz Maker
+# Quiz Maker 
 elif menu == "Quiz Maker":
     st.header("Quiz Maker")
 
-# Initialize session state storage
-if "quiz_data" not in st.session_state:
-    st.session_state.quiz_data = []
-if "quiz_started" not in st.session_state:
-    st.session_state.quiz_started = False
+    # Initialize session state storage
+    if "quiz_data" not in st.session_state:
+        st.session_state.quiz_data = []
+    if "quiz_started" not in st.session_state:
+        st.session_state.quiz_started = False
 
-if not st.session_state.quiz_started:
-    num_questions = st.number_input("How many questions?", min_value=1, step=1)
-    questions = []
+    if not st.session_state.quiz_started:
+        num_questions = st.number_input("How many questions?", min_value=1, step=1)
+        questions = []
 
-    for i in range(num_questions):
-        q = st.text_input(f"Question {i+1}")
-        a = st.text_input(f"Answer {i+1}")
-        questions.append((q, a))
+        for i in range(num_questions):
+            q = st.text_input(f"Question {i+1}")
+            a = st.text_input(f"Answer {i+1}")
+            questions.append((q, a))
 
-    if st.button("Start Quiz"):
-        st.session_state.quiz_data = questions
-        st.session_state.quiz_started = True
-        st.rerun()
+        if st.button("Start Quiz"):
+            st.session_state.quiz_data = questions
+            st.session_state.quiz_started = True
+            st.rerun()
 
-else:
-    score = 0
-    for idx, (q, a) in enumerate(st.session_state.quiz_data):
-        ans = st.text_input(q, key=f"answer_{idx}")
-        if ans.strip().lower() == a.strip().lower():
-            score += 1
+    else:
+        score = 0
+        for idx, (q, a) in enumerate(st.session_state.quiz_data):
+            ans = st.text_input(q, key=f"answer_{idx}")
+            if ans.strip().lower() == a.strip().lower():
+                score += 1
 
-    st.write(f"Your score: {score}/{len(st.session_state.quiz_data)}")
+        st.write(f"Your score: {score}/{len(st.session_state.quiz_data)}")
 
 # Student Picker
 elif menu == "Student Picker":
