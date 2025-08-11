@@ -14,7 +14,7 @@ st.markdown(
     <style>
     /* Background image */
     .stApp {{
-        background: url("background.jpeg");
+        background: url("Background.jpeg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
