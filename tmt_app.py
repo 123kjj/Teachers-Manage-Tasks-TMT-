@@ -170,20 +170,28 @@ elif menu == "❓ Quiz Maker":
         st.session_state.quiz_data = []
     if "quiz_started" not in st.session_state:
         st.session_state.quiz_started = False
+    if "num_questions" not in st.session_state:
+        st.session_state.num_questions = 1
 
     if not st.session_state.quiz_started:
-        num_questions = st.number_input("How many questions? 🤔", min_value=1, step=1)
-        questions = []
+        # Let user select number of questions once
+        st.session_state.num_questions = st.number_input("How many questions? 🤔", min_value=1, step=1)
 
-        for i in range(num_questions):
-            q = st.text_input(f"Question {i+1} 📝")
-            a = st.text_input(f"Answer {i+1} ✍️")
+        # Create inputs for questions and answers with unique keys and store in session_state
+        questions = []
+        for i in range(st.session_state.num_questions):
+            q = st.text_input(f"Question {i+1} 📝", key=f"q_{i}")
+            a = st.text_input(f"Answer {i+1} ✍️", key=f"a_{i}")
             questions.append((q, a))
 
         if st.button("Start Quiz 🚀"):
-            st.session_state.quiz_data = questions
-            st.session_state.quiz_started = True
-            st.experimental_rerun()
+            # Check all questions and answers are filled
+            if all(q.strip() and a.strip() for q, a in questions):
+                st.session_state.quiz_data = questions
+                st.session_state.quiz_started = True
+                st.experimental_rerun()
+            else:
+                st.error("Please fill out all questions and answers before starting the quiz.")
 
     else:
         score = 0
@@ -194,6 +202,14 @@ elif menu == "❓ Quiz Maker":
 
         st.success(f"✅ Your score: {score}/{len(st.session_state.quiz_data)}")
 
+        if st.button("Reset Quiz 🔄"):
+            st.session_state.quiz_started = False
+            st.session_state.quiz_data = []
+            # Clear question inputs from session_state
+            for i in range(st.session_state.num_questions):
+                st.session_state.pop(f"q_{i}", None)
+                st.session_state.pop(f"a_{i}", None)
+            st.experimental_rerun()
 # --- STUDENT PICKER ---
 elif menu == "🎲 Student Picker":
     st.header("Student Picker")
