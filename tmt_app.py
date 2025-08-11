@@ -4,7 +4,7 @@ import random
 # --- PAGE CONFIG ---
 st.set_page_config(
     page_title="TMT - Teacher Manage Tasks",
-    page_icon="📚✨",
+    page_icon="TMTlogo.jpeg",  # Your original image icon
     layout="centered"
 )
 
