@@ -16,17 +16,15 @@ def set_bg(image_file):
     encoded = base64.b64encode(data).decode()
     css = f"""
     <style>
-    /* Background image with dim overlay */
-    .stApp {{
+    [data-testid="stAppViewContainer"] > .main {{
         background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
                     url(data:image/jpeg;base64,{encoded});
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
-        color: #1F3B4D;
     }}
 
-    /* Google Font */
+    /* Font */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
     html, body, [class*="css"] {{
         font-family: 'Poppins', sans-serif;
@@ -137,4 +135,6 @@ elif menu == "Student Picker":
         student_list = [n.strip() for n in names.split(",") if n.strip()]
         if student_list:
             chosen = random.choice(student_list)
-            st.success(f"🎉 The cho
+            st.success(f"🎉 The chosen student is: {chosen}")
+        else:
+            st.error("Please enter at least one student name.")
